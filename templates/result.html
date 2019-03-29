@@ -1,0 +1,47 @@
+{% extends "main_layout.html" %}
+
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Teks berita hasil scrapping</h5>
+      <h6 class="card-subtitle mb-2 text-muted">sumber: <a href="rumahginjal.id">rumahginjal.id</a></h6>
+
+      <table class="table table-hover">
+        <thead>
+          <th>#</th>
+          <th>Term</th>
+          <th>Hasil Stem 1</th>
+          <th>Hasil Stem 2</th>
+          <th>Waktu 1</th>
+          <th>Waktu 2</th>
+          <th>Status 1</th>
+          <th>Status 2</th>
+          <th>Fa</th>
+          <th>Fb</th>
+        </thead>
+        <tbody>
+          {% for dt in dts %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ dt.term.term }}</td>
+            <td>{{ dt.term.hasil_stem1 }}</td>
+            <td>{{ dt.term.hasil_stem2 }}</td>
+            <td>{{ dt.term.waktu_stem1 }}</td>
+            <td>{{ dt.term.waktu_stem2 }}</td>
+            <td>{{ dt.term.status_stem1 }}</td>
+            <td>{{ dt.term.status_stem2 }}</td>
+            <td>{{ dt.term.freq }}</td>
+            <td>{{ dt.freq }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

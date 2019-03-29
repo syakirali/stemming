@@ -1,0 +1,31 @@
+{% extends "main_layout.html" %}
+
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Teks berita hasil scrapping</h5>
+      <h6 class="card-subtitle mb-2 text-muted">sumber: <a href="rumahginjal.id">rumahginjal.id</a></h6>
+
+      <table class="table table-hover">
+        <thead>
+          <th>#</th>
+          <th>Teks</th>
+        </thead>
+        <tbody>
+          {% for dok in dokumen %}
+          <tr style="cursor: pointer;" onclick="window.location.href='/result/{{ dok.id_dokumen }}'">
+            <td>{{ dok.id_dokumen }}</td>
+            <td>{{ dok.text }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
