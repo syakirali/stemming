@@ -1,0 +1,114 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Hasil{% endblock %}
+{% set total_waktu_stem1=0.0 %}
+{% set total_waktu_stem2=0.0 %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="mt-4 card">
+    <div class="card-header">Aksi</div>
+    <div class="card-body">
+      <a href="{{ url_for('generate_hasil') }}" class="btn btn-warning">Generate Hasil Stemming</a>
+    </div>
+  </div>
+  <div class="mt-4 card">
+    <div class="card-header">Hasil</div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="align-middle" rowspan="2" scope="col">#</th>
+            <th class="align-middle" rowspan="2" scope="col">Term</th>
+            <th class="align-middle" rowspan="2" scope="col">F</th>
+            <th colspan="2" scope="col">Hasil Stem</th>
+            <th colspan="2" scope="col">Waktu Proses</th>
+            <th colspan="2" scope="col">Status Kevalidan</th>
+          </tr>
+          <tr>
+            <th scope="col">Nazhief</th>
+            <th scope="col">Tala</th>
+            <th scope="col">Nazhief</th>
+            <th scope="col">Tala</th>
+            <th scope="col">Nazhief</th>
+            <th scope="col">Tala</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in terms %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ t.term }}</td>
+            <td>{{ t.freq }}</td>
+            <td>{{ '-' if t.hasil_stem1 is none else t.hasil_stem1 }}</td>
+            <td>{{ '-' if t.hasil_stem2 is none else t.hasil_stem1 }}</td>
+            <td>{{ '-' if t.waktu_stem1 is none else '% .7f' % t.waktu_stem1|float }}</td>
+            <td>{{ '-' if t.waktu_stem2 is none else '% .7f' % t.waktu_stem2|float }}</td>
+            {% set total_waktu_stem1=total_waktu_stem1+1 %}
+            {% set total_waktu_stem2=total_waktu_stem2+2 %}
+            <td>
+              {% if t.status_stem1 is none %}
+              -
+              {% elif t.status_stem1 %}
+              <i class="fas fa-check-circle text-success"></i>
+              {% else %}
+              <i class="fas fa-times-circle text-danger"></i>
+              {% endif %}
+            </td>
+            <td>
+              {% if t.status_stem2 is none %}
+              -
+              {% elif t.status_stem2 %}
+              <i class="fas fa-check-circle text-success"></i>
+              {% else %}
+              <i class="fas fa-times-circle text-danger"></i>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="6" scope="col">Akurasi metode Nazhief Adriani ({{ jml_valid_stem1 }} / {{ terms|length }})</th>
+            <th colspan="3" scope="col">{{ '% .5f' % (jml_valid_stem1/terms|length)|float if terms|length != 0 else '0' }}%</th>
+          </tr>
+          <tr>
+            <th colspan="6" scope="col">Akurasi metode Tala ({{ jml_valid_stem2 }} / {{ terms|length }})</th>
+            <th colspan="3" scope="col">{{ '% .5f' % (jml_valid_stem2/terms|length)|float if terms|length != 0 else '0' }}%</th>
+          </tr>
+          <tr>
+            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Nazhief Adriani</th>
+            <th id="rata2_nazhief" colspan="3" scope="col">{{ total_waktu_stem1 }}</th>
+          </tr>
+          <tr>
+            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Tala</th>
+            <th id="rata2_tala" colspan="3" scope="col">{{ total_waktu_stem2 }}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var waktu_nazhief = $('tbody>tr>td:nth-child(6)');
+    var waktu_tala = $('tbody>tr>td:nth-child(7)');
+    var total_nazhief = 0.0;
+    var total_tala = 0.0;
+
+    waktu_nazhief.each(function(){
+      total_nazhief = total_nazhief + parseFloat($(this).html());
+    });
+
+    waktu_tala.each(function(a, b, c){
+      total_tala = total_tala + parseFloat($(this).html());
+    });
+
+    $('#rata2_nazhief').html(total_nazhief);
+    $('#rata2_tala').html(total_tala);
+});
+</script>
+{% endblock %}

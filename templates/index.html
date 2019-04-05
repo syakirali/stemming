@@ -1,32 +1,39 @@
 {% extends "main_layout.html" %}
 
-
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container mt-3">
-  <div class="card">
-    <a href="/generate" class="btn btn-success">Lakukan Stemming</a>
-    <div class="card-body">
-      <h5 class="card-title">Teks berita hasil scrapping</h5>
-      <h6 class="card-subtitle mb-2 text-muted">sumber: <a href="rumahginjal.id">rumahginjal.id</a></h6>
-
-      <table class="table table-hover">
-        <thead>
-          <th>#</th>
-          <th>Teks</th>
-        </thead>
-        <tbody>
-          {% for dok in dokumen %}
-          <tr style="cursor: pointer;" onclick="window.location.href='/result/{{ dok.id_dokumen }}'">
-            <td>{{ dok.id_dokumen }}</td>
-            <td>{{ dok.text }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-    </div>
+<div class="container-fluid">
+  <h3 class="mt-4">Sekilas</h3>
+  <p>Aplikasi ini adalah aplikasi yang membandingkan performa stemming antara metode Tala dengan Nazhief Adriani. Data yang akan diuji adalah dokumen berita yang didapatkan dari <a href="http://rumahginjal.id/category/blog">rumahginjal.id</a></p>
+  <h3 class="mt-4">Anggota Kelompok</h3>
+  <div class="card col-md-6 col-sm-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">NIM</th>
+          <th scope="col">Nama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>081611633050</td>
+          <td>Mohammad Ali Asy-syakir</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>081611633050</td>
+          <td>Thornton</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>081611633050</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 {% endblock %}
