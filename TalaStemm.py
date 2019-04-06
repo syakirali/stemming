@@ -2,10 +2,12 @@
 class TalaStemmFactory:
     def __init__(self):
         stopword = [line.rstrip('\n') for line in open('stopword.txt')]
+        stopword_kd = [line.rstrip('\n') for line in open('stopword_kd.txt')]
         self.stopword = stopword
+        self.stopword_kd = stopword_kd
 
     def getTalaStemmer(self):
-        return TalaStemmer(self.stopword)
+        return TalaStemmer(self.stopword, self.stopword_kd)
 
 class TalaStemmer:
     awalan1 = [
@@ -25,10 +27,14 @@ class TalaStemmer:
     akhiran2 = ['nya', 'ku',    'mu']
     akhiran3 = ['kan', 'an',    'i']
 
-    def __init__(self, stopword):
+    def __init__(self, stopword, stopword_kd):
         self.stopword = stopword
+        self.stopword_kd = stopword_kd
 
     def stem(self, word):
+        if (word in self.stopword_kd):
+            index = self.stopword_kd.index(word)
+            return self.stopword_kd[index]
         word, success = self.hilangkanAwalan(self.awalan1, word)
         if (success):
             word, success = self.hilangAkhiran(self.akhiran1, word)
