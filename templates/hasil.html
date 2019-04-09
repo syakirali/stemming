@@ -70,19 +70,19 @@
         <tfoot>
           <tr>
             <th colspan="6" scope="col">Akurasi metode Nazhief Adriani ({{ jml_valid_stem1 }} / {{ terms|length }})</th>
-            <th colspan="3" scope="col">{{ '% .5f' % (jml_valid_stem1/terms|length)|float if terms|length != 0 else '0' }}%</th>
+            <th class="text-right" colspan="3" scope="col">{{ '% .5f' % (100*jml_valid_stem1/terms|length)|float if terms|length != 0 else '0' }} %</th>
           </tr>
           <tr>
             <th colspan="6" scope="col">Akurasi metode Tala ({{ jml_valid_stem2 }} / {{ terms|length }})</th>
-            <th colspan="3" scope="col">{{ '% .5f' % (jml_valid_stem2/terms|length)|float if terms|length != 0 else '0' }}%</th>
+            <th class="text-right" colspan="3" scope="col">{{ '% .5f' % (100*jml_valid_stem2/terms|length)|float if terms|length != 0 else '0' }} %</th>
           </tr>
           <tr>
             <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Nazhief Adriani</th>
-            <th id="rata2_nazhief" colspan="3" scope="col">{{ total_waktu_stem1 }}</th>
+            <th class="text-right" id="rata2_nazhief" colspan="3" scope="col">{{ total_waktu_stem1 }}</th>
           </tr>
           <tr>
             <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Tala</th>
-            <th id="rata2_tala" colspan="3" scope="col">{{ total_waktu_stem2 }}</th>
+            <th class="text-right" id="rata2_tala" colspan="3" scope="col">{{ total_waktu_stem2 }}</th>
           </tr>
         </tfoot>
       </table>
@@ -107,8 +107,8 @@ $(document).ready(function(){
       total_tala = total_tala + parseFloat($(this).html());
     });
 
-    $('#rata2_nazhief').html(total_nazhief);
-    $('#rata2_tala').html(total_tala);
+    $('#rata2_nazhief').html(total_nazhief.toFixed(5));
+    $('#rata2_tala').html(total_tala.toFixed(5));
 });
 </script>
 {% endblock %}
