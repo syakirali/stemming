@@ -13,7 +13,7 @@ import time
 
 app = Flask(__name__)
 app.secret_key = b'\x10\xeft\x80\xba\x1f\xb1\xd5\x03\x82}\xf4\xd7\xe2\xb0\xd6'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:toor@localhost/stki_stemming'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:asdasd@localhost/stki_stemming'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = SQLAlchemy(app)
 
