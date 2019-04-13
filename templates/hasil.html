@@ -77,11 +77,11 @@
             <th class="text-right" colspan="3" scope="col">{{ '% .5f' % (100*jml_valid_stem2/terms|length)|float if terms|length != 0 else '0' }} %</th>
           </tr>
           <tr>
-            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Nazhief Adriani</th>
+            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Nazhief Adriani<span id="rt_wktu_nazhief" class="ml-2"></span></th>
             <th class="text-right" id="rata2_nazhief" colspan="3" scope="col">{{ total_waktu_stem1 }}</th>
           </tr>
           <tr>
-            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Tala</th>
+            <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Tala<span id="rt_wktu_tala" class="ml-2"></span></th>
             <th class="text-right" id="rata2_tala" colspan="3" scope="col">{{ total_waktu_stem2 }}</th>
           </tr>
         </tfoot>
@@ -98,6 +98,7 @@ $(document).ready(function(){
     var waktu_tala = $('tbody>tr>td:nth-child(7)');
     var total_nazhief = 0.0;
     var total_tala = 0.0;
+    var total_term = {{ terms|length }};
 
     waktu_nazhief.each(function(){
       total_nazhief = total_nazhief + parseFloat($(this).html());
@@ -107,8 +108,11 @@ $(document).ready(function(){
       total_tala = total_tala + parseFloat($(this).html());
     });
 
-    $('#rata2_nazhief').html(total_nazhief.toFixed(5));
-    $('#rata2_tala').html(total_tala.toFixed(5));
+    $('#rt_wktu_nazhief').html("("+ total_nazhief.toFixed(5) + " / " + total_term + ")");
+    $('#rt_wktu_tala').html("("+ total_tala.toFixed(5) + " / " + total_term + ")");
+
+    $('#rata2_nazhief').html((total_nazhief/total_term).toFixed(5));
+    $('#rata2_tala').html((total_tala/total_term).toFixed(5));
 });
 </script>
 {% endblock %}
