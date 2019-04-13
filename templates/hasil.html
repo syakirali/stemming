@@ -1,8 +1,6 @@
 {% extends "main_layout.html" %}
 
 {% block title %}Hasil{% endblock %}
-{% set total_waktu_stem1=0.0 %}
-{% set total_waktu_stem2=0.0 %}
 {% block content %}
 
 <div class="container-fluid">
@@ -42,10 +40,8 @@
             <td>{{ t.freq }}</td>
             <td>{{ '-' if t.hasil_stem1 is none else t.hasil_stem1 }}</td>
             <td>{{ '-' if t.hasil_stem2 is none else t.hasil_stem1 }}</td>
-            <td>{{ '-' if t.waktu_stem1 is none else '% .7f' % t.waktu_stem1|float }}</td>
-            <td>{{ '-' if t.waktu_stem2 is none else '% .7f' % t.waktu_stem2|float }}</td>
-            {% set total_waktu_stem1=total_waktu_stem1+1 %}
-            {% set total_waktu_stem2=total_waktu_stem2+2 %}
+            <td>{{ '-' if t.waktu_stem1 is none else '% .6f' % t.waktu_stem1|float }}</td>
+            <td>{{ '-' if t.waktu_stem2 is none else '% .6f' % t.waktu_stem2|float }}</td>
             <td>
               {% if t.status_stem1 is none %}
               -
@@ -78,11 +74,11 @@
           </tr>
           <tr>
             <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Nazhief Adriani<span id="rt_wktu_nazhief" class="ml-2"></span></th>
-            <th class="text-right" id="rata2_nazhief" colspan="3" scope="col">{{ total_waktu_stem1 }}</th>
+            <th class="text-right" id="rata2_nazhief" colspan="3" scope="col"></th>
           </tr>
           <tr>
             <th colspan="6" scope="col">Rata-rata waktu eksekusi metode Tala<span id="rt_wktu_tala" class="ml-2"></span></th>
-            <th class="text-right" id="rata2_tala" colspan="3" scope="col">{{ total_waktu_stem2 }}</th>
+            <th class="text-right" id="rata2_tala" colspan="3" scope="col"></th>
           </tr>
         </tfoot>
       </table>
