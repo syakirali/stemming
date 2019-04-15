@@ -36,13 +36,21 @@ def hello_world():
     # return 'Hello'
     base_url = 'http://rumahginjal.id'
     url = 'http://rumahginjal.id/category/berita'
+
+    if Dokumen.query.count() != 0:
+        print("sudah ada")
+        # dokumen = Dokumen.query.delete()
+        try:
+            num_rows_deleted = db.session.query(Dokumen).delete()
+            num_rows_deleted = db.session.query(Term).delete()
+            db.session.commit()
+        except:
+            db.session.rollback()
+
     print("get url")
     for i in range(1, 11):
         get_data(url + '?page=' + str(i), base_url)
-    # urls = HalDepan.query.with_entities(HalDepan.url).all()
-    # print("get detail berita")
-    # for i in urls:
-    #     get_detail_berita(i.url)
+
     return redirect(url_for('data_dokumen'))
 
 @app.route('/data/term')
@@ -52,6 +60,15 @@ def data_term():
 
 @app.route('/data/term/generate')
 def generate_term():
+
+    if Term.query.count() != 0:
+        print("Term sudah ada")
+        try:
+            num_rows_deleted = db.session.query(Term).delete()
+            db.session.commit()
+        except:
+            db.session.rollback()
+
     dokumen = Dokumen.query.all()
 
     tanda_baca = ['"', '.', ',', '\'', '“', '”', '(', ')', '/', '?', '!', ';', '-', ':']
@@ -129,24 +146,8 @@ def generate_hasil():
 
     kamus = Kamus.query.with_entities(Kamus.katadasar).all()
 
-    # print(kamus.count())
-    # return 'test'
-
     # Mengambil data katadasar dari database
     kamus = [k[0] for k in kamus]
-    # a = ('abar')
-    # print(a in kamus)
-    # print(kamus[1])
-    # print(type(kamus[1]))
-    # print(type(kamus))
-    # return 'hello'
-    '''
-    result = '<pre>'
-    for k in kamus:
-        result = result + '\n{}'.format(k.katadasar)
-    result = result + '</pre>'
-    return result
-    '''
 
     terms = Term.query.all()
     for t in terms:
@@ -211,8 +212,8 @@ def get_data(url, base_url):
     data = sorting_html(url)
     # arr_url = []
     for i in range(len(data)):
-        get_detail_berita(base_url + data[i].a['href'])
-        simpan_database_haldepan(base_url + data[i].a['href'])
+        if get_detail_berita(base_url + data[i].a['href']):
+            simpan_database_haldepan(base_url + data[i].a['href'])
     return "Selesai"
 
 
@@ -233,9 +234,12 @@ def get_detail_berita(url):
     mentah = scrapt(url)
     bs = BeautifulSoup(mentah, 'lxml')
     artikel = bs.find('div', {'class': 'g-font-size-16 g-line-height-1_8 g-mb-30'})
+    if artikel is None:
+        return False
     if url == 'http://rumahginjal.id/rumah-ginjal-fatma-saifullah-yusuf-anak-difabel-jangan-disembunyikan':
         artikel1 = artikel.find_all('div')
     else:
+        print(url)
         artikel1 = artikel.find_all('p')
     judul = bs.find('h2', {'class': 'h1 g-mb-15'}).text
     gabungan_artikel = []
