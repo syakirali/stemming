@@ -7,6 +7,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import backref
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from TalaStemm import TalaStemmFactory
+from EHCS import EHCS
 import re
 
 import time
@@ -21,9 +22,19 @@ db = SQLAlchemy(app)
 factory = StemmerFactory()
 n_a_stemmer = factory.create_stemmer()
 tala_stemmer = TalaStemmFactory().getTalaStemmer()
+ehcs_stemmer = EHCS()
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/export')
+def export():
+    term = Term.query.all()
+    f = open("term.txt", "w+")
+    for t in term:
+        f.write(t.term + '\n')
+    f.close()
+    return 'done'
 
 @app.route('/data/dokumen')
 def data_dokumen():
@@ -137,9 +148,16 @@ def hasil():
     terms = Term.query.order_by(Term.term).all()
     jml_valid_stem1 = db.session.query(Term).filter_by(status_stem1=1).count()
     jml_valid_stem2 = db.session.query(Term).filter_by(status_stem2=1).count()
+    jml_valid_stem3 = db.session.query(Term).filter_by(status_stem3=1).count()
     # print(terms[0].hasil_stem1 is None)
     # return 'Hello'
-    return render_template('hasil.html', terms=terms, jml_valid_stem1=jml_valid_stem1, jml_valid_stem2=jml_valid_stem2)
+    return render_template(
+        'hasil.html',
+        terms=terms,
+        jml_valid_stem1=jml_valid_stem1,
+        jml_valid_stem2=jml_valid_stem2,
+        jml_valid_stem3=jml_valid_stem3,
+    )
 
 @app.route('/hasil/generate')
 def generate_hasil():
@@ -153,8 +171,10 @@ def generate_hasil():
     for t in terms:
         t.hasil_stem1, t.waktu_stem1 = stem_nazhief_adriani(t.term)
         t.hasil_stem2, t.waktu_stem2 = stem_tala(t.term)
+        t.hasil_stem3, t.waktu_stem3 = stem_ehcs(t.term)
         t.status_stem1 = t.hasil_stem1 in kamus
         t.status_stem2 = t.hasil_stem2 in kamus
+        t.status_stem3 = t.hasil_stem3 in kamus
     db.session.commit()
     return redirect(url_for('hasil'))
 
@@ -171,6 +191,12 @@ def stem_tala(term):
 def stem_nazhief_adriani(term):
     start = time.time()
     hasil_stem = n_a_stemmer.stem(term)
+    waktu = time.time() - start
+    return hasil_stem, waktu
+
+def stem_ehcs(term):
+    start = time.time()
+    hasil_stem = ehcs_stemmer.process(term)['stem']
     waktu = time.time() - start
     return hasil_stem, waktu
 
@@ -262,10 +288,13 @@ class Term(db.Model):
     term = db.Column(db.String(30), nullable=False)
     hasil_stem1 = db.Column(db.String(30), nullable=False)
     hasil_stem2 = db.Column(db.String(30), nullable=False)
+    hasil_stem3 = db.Column(db.String(30), nullable=False)
     waktu_stem1 = db.Column(db.Float, nullable=False)
     waktu_stem2 = db.Column(db.Float, nullable=False)
+    waktu_stem3 = db.Column(db.Float, nullable=False)
     status_stem1 = db.Column(db.Integer, nullable=True)
     status_stem2 = db.Column(db.Integer, nullable=True)
+    status_stem3 = db.Column(db.Integer, nullable=True)
     freq = db.Column(db.Integer, nullable=False, default=1)
 
     # relasi
