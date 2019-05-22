@@ -4,46 +4,62 @@
 
 {% block content %}
 <div class="container-fluid">
-  <h3 class="mt-4">Sekilas</h3>
-  <p>Aplikasi ini adalah aplikasi yang membandingkan performa stemming antara metode Tala dengan Nazhief Adriani. Data yang akan diuji adalah dokumen berita yang didapatkan dari <a href="http://rumahginjal.id/category/blog">rumahginjal.id</a></p>
-  <h3 class="mt-4">Anggota Kelompok</h3>
-  <div class="card col-md-6 col-sm-12">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">NIM</th>
-          <th scope="col">Nama</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>081611633011</td>
-          <td>Thomas Adi Yoga</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>081611633036</td>
-          <td>Kholish Fuadi Ahmad</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>081611633039</td>
-          <td>Yofan Ardian Muslim</td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-          <td>081611633047</td>
-          <td>Nazhier Rijalana</td>
-        </tr>
-        <tr>
-          <th scope="row">5</th>
-          <td>081611633050</td>
-          <td>Mohammad Ali Asy-syakir</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="row mt-4">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-header"><h3>Penelitian perbandingan metode stemming</h3></div>
+        <div class="card-body">
+          <h4>Tentang Aplikasi</h4>
+          <p>
+            Aplikasi ini adalah aplikasi yang membandingkan performa stemming
+            antara metode Tala, Nazhief Adriani serta EHCS. Data yang akan diuji
+            adalah dokumen berita yang didapatkan dari web blog
+            <a href="http://rumahginjal.id/category/blog">rumahginjal.id</a>.
+          </p>
+          <h4>Langkah penelitian</h4>
+          <ul>
+            <li>
+              <h5>Scraping dokumen berita</h5>
+              <p>
+                Scraping adalah pengambilan beberapa konten dari suatu web.
+                Dalam penelitian ini, diambil data dokumen berita dari <a href="http://rumahginjal.id/category/blog">rumahginjal.id</a>
+                sebanyak 48 hingga 50 dokumen berita.
+              </p>
+            </li>
+            <li>
+              <h5>Stemming</h5>
+              <p>
+                Semua dokumen berita yang diperoleh kemudian dilakukan stemming.
+                Stemming sendiri adalah proses pengambilan kata dasar pada dokumen.
+                Dari proses stemming ini, dihasilkan data term dan data waktu
+                proses stemming yang ditempuh dari ketiga metode yang diteliti
+                (Tala, Nazhief dan EHCS). Data term adalah data kata dasar dari
+                semua dokumen berita yang telah didapat. Selain itu, pada proses
+                ini juga dihasilkan data validitas dari tiap term yang dihasilkan dari
+                ketiga metode tersebut.
+              </p>
+            </li>
+            <li>
+              <h5>Hasil</h5>
+              <p>
+                Hasil penelitian dilihat dari data akurasi dan tingkat akurasi
+                stemming dari ketiga metode. Semakin tinggi akurasi hasil stemming,
+                maka semakin baik metode tersebut. Sebaliknya, semakin tinggi
+                waktu pemrosesan, maka semakin buruk metode tersebut.
+              </p>
+            </li>
+          </ul>
+          <h4>Lain-lain</h4>
+          <p>
+            Sistem yang dibuat sebagai alat uji dalam penelitian ini dibangun
+            menggunakan bahasa pemrograman python3. Hasil penghitungan waktu proses
+            akan memiliki hasil yang berbeda tiap komputer sesuai dengan spesifikasi
+            yang dimilikinya serta muatan proses/program lain yang sedang berjalan
+            pada saat dilakukan penghitungan.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
